@@ -7,12 +7,12 @@ This demo project describes the development of a device to allow beer to be disp
 Our core team works on servicing officially supported versions of Windows 10 IoT Core, so we have skills working with Windows and IoT devices.  We also realized we needed help 
 with usability, graphics, and styling the application.
 
-* Christina Ahonen – Program Manager II
+* Christian Ahonen – Program Manager II
 * Sara Clayton – Program Manager
-* Sudheer Kusuma – Senior Software Engineer
 * Dave Natsuhara – Principal Software Engineering Lead
-* Rutuja Shirali – Software Engineer
 * Mark Snyder – Senior Software Engineer
+* Rutuja Shirali – Software Engineer
+* Sudheer Kusuma – Senior Software Engineer
 
 ## The Requirements
 
@@ -29,7 +29,7 @@ misconceptions about IoT:
 extent, due to historical performance limitations and either having not enough or too many ports/pins on them for the application that an OEM might be targeting.  This actually 
 worked to our benefit, because we wanted to show that we could use a bunch of sensors at the same time and really flex the capabilities of the microcontroller.
 * We wanted to show that the Windows 10 IoT Core platform is capable of performing really well for a useful, real-world scenario.
-* The ability to write UWP applications really sped up our development.  It also gave us a lot of confidence in the software we had to develop.
+* The ability to write UWP applications really speed up our development.  It also gave us a lot of confidence in the software we had to develop.
 
 The great thing about a project of this size is the opportunity to experience the full product life cycle.  We wanted to use this to show we could use Visual Studio Online to 
 manage our project and track progress throughout.  
@@ -58,8 +58,8 @@ With a broad design in place, we were ready to begin building a prototype.
 The technology and products involved included:
 * Raspberry Pi 3 microcontroller
   * We considered using a Minnowboard Max (x86) microcontroller for a while because it housed a similar number of ports and GPIO pins, and because of driver support for some 
-of the card readers we considered.  In the end, we went with the RPI3 because it was the cheapest option that satisfied our requirements.
-* Windows 10 IoT Core, RS4
+of the card readers we considered.  In the end, we went with the RPi3 because it was the chipest option that satisfied our requirements.
+* Windows 10 IoT Core, RS3 and beyond
 * Universal Windows Platform (UWP) for both the user application and the admin console
 * Nostalgia Electrics KRS2100 5.1 Cubic-Foot Kegorator, Draft Beer Dispenser
 * A variety of sensors:
@@ -123,8 +123,8 @@ Each component was tested on its own prior to integrating with the prototype.
 P3 worked, looked better, and got much more modular.  The new cables were of a more appropriate length, which allowed the keg to be removed and put back in the refrigerator 
 without inadvertently unplugging wires or putting stress on connectors.
 
-The weight sensors needed to be placed beneath the keg in such a way that the weight would be evenly distributed.  An empty keg can weigh a few dozen pounds, while a full 
-keg could weigh close to 200 pounds.  We were also concerned with using something that would bend and foul the readings.  We also needed to be stingy with the height of the 
+The weight sensors needed to be placed beneath the keg in such a way that the weight would be evenly distributed.  An empty keg can weigh around 30 pounds, while a full 
+keg could weigh close to 160 pounds.  We were also concerned with using something that would bend and foul the readings.  We also needed to be stingy with the height of the 
 keg from the bottom of the refrigerator, because there was only a small space for the regulator, hoses and the keg tap to fit above and behind the keg.  We made a pattern for 
 the shape from a blank manila folder. Then we bought a sheet of ½” Rigid High-Density Polyethylene and cut two pieces to fit our pattern.  We fastened the force sensors between 
 the two sheets with the wires coming out the back.  By placing the sensors as far apart as possible from one another, and under where the keg's weight would touch the top sheet,
@@ -149,8 +149,13 @@ As the user pours beer, the amount is monitored, and the unit shuts off if:
 1. the hourly limit for this user is met, or 
 2. the timeout is reached.  
 
-In order to support a variety of form factors, the application needed to use a responsive design approach.  Our goal was to at least support landscape and portrait orientations
-at common resolutions such as 1024x678 or 1280x1024.
+In order to support a variety of form factors, the application needed to use a responsive design approach.  Our goal was to at least support landscape and portrait orientations aligned to  IoT Core Windows Device Portal ( `http://<IPAddress>:8080/`.
+
+On Architectual front, all hardware interactations are driven through Data Access Layer(DAL) leaving less moving pieces in UWP layer. Used following Nuget Packages
+1. Microsoft.Data.Sqlite - For Storing user visits, consumption
+2. Microsoft.Toolkit.UWP - For responsive, used DockPanel and other controls
+3. Microsoft.ApplicationInsights - For logging insights events, exceptions, traces, metrics to the cloud for future analysis.
+4. Azure Functions - Encapsulating Secret key from UWP
 
 ## Administration
 
