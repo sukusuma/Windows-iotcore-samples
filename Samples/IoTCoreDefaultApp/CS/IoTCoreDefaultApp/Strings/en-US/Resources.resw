@@ -164,6 +164,14 @@
     <value>Ethernet</value>
     <comment>Field label</comment>
   </data>
+  <data name="LeanMoreText" xml:space="preserve">
+    <value>Learn More</value>
+    <comment>Learn More Button</comment>
+  </data>
+  <data name="MakerImageNoticeText" xml:space="preserve">
+    <value>This is a Windows 10 IoT Core test image designed for prototyping only. If you are looking to commercialize, you must use a custom FFU for optimal security.</value>
+    <comment>Maker Imager Security Notice</comment>
+  </data>
   <data name="NetworkConnectingMessageText" xml:space="preserve">
     <value>Checking network requirements</value>
     <comment>Message display during wifi network connect click</comment>
@@ -393,7 +401,7 @@
     <value>Your Board</value>
   </data>
   <data name="Tutorial.GetStarted.014.ul" xml:space="preserve">
-    <value>Visual Studio 2015</value>
+    <value>Visual Studio 2017</value>
   </data>
   <data name="Tutorial.GetStarted.014a.br" xml:space="preserve">
     <value />
@@ -547,23 +555,23 @@
     <value>Your Board</value>
   </data>
   <data name="Tutorial.GetCoding.009.ul" xml:space="preserve">
-    <value>Visual Studio 2015</value>
+    <value>Visual Studio 2017</value>
   </data>
   <data name="Tutorial.GetCoding.009a.br" xml:space="preserve">
     <value />
     <comment>Please do NOT localize this string</comment>
   </data>
   <data name="Tutorial.GetCoding.010.h1" xml:space="preserve">
-    <value>Setting up Visual Studio 2015 on your PC</value>
+    <value>Setting up Visual Studio 2017 on your PC</value>
   </data>
   <data name="Tutorial.GetCoding.012.ul" xml:space="preserve">
     <value>Install Windows 10</value>
   </data>
   <data name="Tutorial.GetCoding.013.ul" xml:space="preserve">
-    <value>Install Visual Studio 2015. Choose the Custom option when you kick off the installer, and then check the option to install the Windows 10 tools.</value>
+    <value>Install Visual Studio 2017. In the Workloads tab, check the Universal Windows Platform development option.</value>
   </data>
   <data name="Tutorial.GetCoding.014.ul" xml:space="preserve">
-    <value>If you are planning to develop drivers, install the WDK.</value>
+    <value>If you are planning to develop drivers, install the Windows Driver Kit (WDK).</value>
   </data>
   <data name="Tutorial.GetCoding.016a.br" xml:space="preserve">
     <value />
@@ -630,6 +638,11 @@
   <data name="BluetoothInboundRegistrationAlreadyDoneFormat" xml:space="preserve">
     <value>Already registered for inbound pairing, supported ceremonies: {0}</value>
     <comment>Format string for message displayed when Inbound pairing handler registration already done</comment>
+  </data>
+  <data name="BluetoothListenerCreationFailedFormat" xml:space="preserve">
+    <value>Failed to successfully register for Inbound pairing:
+{0}</value>
+    <comment>Message displayed on when Bluetooth watcher fails to be created. The new line before {0} is deliberate and should be kept</comment>
   </data>
   <data name="BluetoothInboundRegistrationFailed" xml:space="preserve">
     <value>Failed to register for inbound pairing.</value>
@@ -717,20 +730,23 @@
     <comment>Title for command line page</comment>
   </data>
   <data name="CommandLinePlaceholderText" xml:space="preserve">
-    <value>{0}&gt; Enter command line</value>
+    <value>Enter command line</value>
     <comment>Placeholder for command line input text box</comment>
   </data>
   <data name="ClearPageText" xml:space="preserve">
     <value>Clear</value>
   </data>
   <data name="CdNotSupported" xml:space="preserve">
-    <value>Change Directory not currently supported. Please use full paths in your commands.</value>
+    <value>Change directory not currently supported using "cd" command. Please update the working directory path in the corresponding text box.</value>
+  </data>
+  <data name="WorkingDirectoryInvalid" xml:space="preserve">
+    <value>Invalid working directory : {0}</value>
   </data>
   <data name="CmdNotEnabled" xml:space="preserve">
     <value>Your device is not enabled to run the command line processor.
 To enable it, connect to your device as "Administrator" (e.g. using PowerShell or SSH) or use Windows Device Portal to run this command:
 
-    reg ADD "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\EmbeddedMode\ProcessLauncher" /f /v AllowedExecutableFilesList /t REG_MULTI_SZ /d "c:\windows\system32\cmd.exe\0"
+    {0}
 
 Alternatively, click or tap the button below to enter your Administrator account's password and attempt to enable the command line processor.
 
@@ -738,8 +754,7 @@ Alternatively, click or tap the button below to enter your Administrator account
     <comment>New lines need to be preserved</comment>
   </data>
   <data name="ExecAsDefaultAccount" xml:space="preserve">
-    <value>Executing commands as DefaultAccount
-    </value>
+    <value>Executing commands as DefaultAccount</value>
   </data>
   <data name="CloseText" xml:space="preserve">
     <value>Close</value>
@@ -753,11 +768,53 @@ Alternatively, click or tap the button below to enter your Administrator account
   <data name="PasswordText" xml:space="preserve">
     <value>Password</value>
   </data>
+  <data name="DomainText" xml:space="preserve">
+    <value>Domain</value>
+  </data>
+  <data name="WpsText" xml:space="preserve">
+    <value>WPS</value>
+  </data>
+  <data name="UnspecifiedFailureText" xml:space="preserve">
+    <value>Unspecified Failure</value>
+  </data>
+  <data name="SuccessText" xml:space="preserve">
+    <value>Success</value>
+  </data>
+  <data name="AccessRevokedText" xml:space="preserve">
+    <value>Access Revoked</value>
+  </data>
+  <data name="InvalidCredentialText" xml:space="preserve">
+    <value>Invalid Credential</value>
+  </data>
+  <data name="NetworkNotAvailableText" xml:space="preserve">
+    <value>Network Not Available</value>
+  </data>
+  <data name="TimeoutText" xml:space="preserve">
+    <value>Connection Timed Out</value>
+  </data>
+  <data name="CommandTimeoutText" xml:space="preserve">
+    <value>Command timed out after {0} seconds of no output.</value>
+  </data>
+  <data name="CommandLineError" xml:space="preserve">
+    <value>Error running command line: {0}</value>
+  </data>
+  <data name="CommandCancelled" xml:space="preserve">
+    <value>Command cancelled.</value>
+  </data>
+  <data name="CommandOutputTooLongeWarning" xml:space="preserve">
+    <value>Warning: Command output too long. Output trimmed.</value>
+  </data>
+  <data name="UnsupportedAuthenticationProtocolText" xml:space="preserve">
+    <value>Unsupported Authentication Protocol</value>
+  </data>
+  <data name="UsePasswordText" xml:space="preserve">
+    <value>Use password</value>
+  </data>
   <data name="CmdTextEnabledSuccess" xml:space="preserve">
     <value>Successfully enabled Command Line Processor (cmd.exe) on your device.</value>
   </data>
   <data name="CmdTextEnabledFailure" xml:space="preserve">
-    <value>Failed to enable Command Line Processor (cmd.exe) on your device. Status = {0}</value>
+    <value>Failed to enable Command Line Processor (cmd.exe) on your device: {0}</value>
   </data>
   <data name="DisconnectButtonContent" xml:space="preserve">
     <value>Disconnect</value>
@@ -818,4 +875,67 @@ Alternatively, click or tap the button below to enter your Administrator account
     <value>Windows 10 IoT Core</value>
     <comment>Dont Localize</comment>
   </data>
+  <data name="LanguagePopupText1" xml:space="preserve">
+    <value>Cortana doesn’t support your current language settings. Do you want to select</value>
+    <comment>Part for PopupText1</comment>
+  </data>
+  <data name="LanguagePopupText3" xml:space="preserve">
+    <value>language to enable Cortana?</value>
+    <comment>Text for PopupText3</comment>
+  </data>
+  <data name="SpeechNotSupportText" xml:space="preserve">
+    <value>This language does not support speech.</value>
+  </data>
+  <data name="SpeechSupportText" xml:space="preserve">
+    <value>This language supports speech.</value>
+  </data>
+  <data name="LanguageApplyButtonText" xml:space="preserve">
+    <value>Restart this app to apply new settings</value>
+  </data>
+  <data name="BluetoothPairingRequestProgress" xml:space="preserve">
+    <value>Please wait, pairing inprogress</value>
+    <comment>Pairing InProgress Text</comment>
+  </data>
+  <data name="BluetoothInboundLabel" xml:space="preserve">
+    <value>Inbound Pairing:</value>
+    <comment>Label that shows inbound pairing status</comment>
+  </data>
+  <data name="BluetoothOutboundLabel" xml:space="preserve">
+    <value>Outbound Pairing:</value>
+    <comment>Label that shows outbound pairing status</comment>
+  </data>
+  <data name="YesLabel" xml:space="preserve">
+    <value>Yes</value>
+    <comment>Generic text for a Yes Label</comment>
+  </data>
+  <data name="NoLabel" xml:space="preserve">
+    <value>No</value>
+    <comment>Generic text for a No Label</comment>
+  </data>
+  <data name="OKLabel" xml:space="preserve">
+    <value>OK</value>
+    <comment>Generic text for an OK Label</comment>
+  </data>
+  <data name="ChangeTimeZoneTitleText" xml:space="preserve">
+    <value>Time zone</value>
+    <comment>Time zone text</comment>
+  </data>
+  <data name="ContinueText" xml:space="preserve">
+    <value>Continue</value>
+    <comment>Continue</comment>
+  </data>
+  <data name="CmdTextAdminCommandFailure" xml:space="preserve">
+    <value>Failed to run command as Administrator: {0}</value>
+  </data>
+  <data name="CouldNotParseOutputFailure" xml:space="preserve">
+    <value>Could not parse command output</value>
+  </data>
+  <data name="RunAsAdminUsage" xml:space="preserve">
+    <value>Usage: RunAsAdmin command
+
+Examples:
+> RunAsdmin TZUTIL /s "Pacific Standard Time"
+> RunAsdmin SetComputerName MyNewDeviceName</value>
+
+</data>
 </root>

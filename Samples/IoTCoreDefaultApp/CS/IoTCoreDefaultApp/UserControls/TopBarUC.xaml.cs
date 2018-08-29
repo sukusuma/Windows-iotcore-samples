@@ -1,20 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 namespace IoTCoreDefaultApp
 {
@@ -80,8 +71,10 @@ namespace IoTCoreDefaultApp
 
         private void UpdateDateTime()
         {
-            var t = DateTime.Now;
-            this.CurrentTime.Text = t.ToString("t", CultureInfo.CurrentCulture) + Environment.NewLine + t.ToString("d", CultureInfo.CurrentCulture);
+            Utils.SYSTEMTIME tTime;
+
+            Utils.NativeTimeMethods.GetLocalTime(out tTime);
+            this.CurrentTime.Text   = tTime.ToDateTime().ToString("t", CultureInfo.CurrentCulture) + Environment.NewLine + tTime.ToDateTime().ToString("d", CultureInfo.CurrentCulture);
         }
 
         private void ClearBackground()
@@ -94,7 +87,15 @@ namespace IoTCoreDefaultApp
 
         private void ShutdownHelper(ShutdownKind kind)
         {
-            ShutdownManager.BeginShutdown(kind, TimeSpan.FromSeconds(0.5));
+            try
+            {
+                ShutdownManager.BeginShutdown(kind, TimeSpan.FromSeconds(0.5));
+            }
+            catch (Exception e)
+            {
+                // Catching the exception ensures this doesn't crash the app on non-IOT devices
+                Debug.WriteLine("Couldn't begin shutdown: " + e.Message);
+            }
         }
 
 

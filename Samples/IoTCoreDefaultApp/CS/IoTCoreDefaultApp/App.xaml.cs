@@ -1,7 +1,9 @@
 ﻿// Copyright (c) Microsoft. All rights reserved.
 
 
+using IoTCoreDefaultApp.Utils;
 using System;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Devices.Enumeration;
@@ -39,6 +41,7 @@ namespace IoTCoreDefaultApp
 
         // Don't try and make discoverable if this has already been done
         private static bool isDiscoverable = false;
+        public static NetworkPresenter NetworkPresenter { get; } = new NetworkPresenter();
 
         public static bool IsBluetoothDiscoverable
         {
@@ -62,6 +65,7 @@ namespace IoTCoreDefaultApp
             // System.Diagnostics.Debugger.Break();
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            Log.Write("Started");
         }
 
         /// <summary>
@@ -69,7 +73,7 @@ namespace IoTCoreDefaultApp
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
 
             /*#if DEBUG
@@ -87,12 +91,17 @@ namespace IoTCoreDefaultApp
             {
                 // Create a Frame to act as the navigation context and navigate to the first page
                 rootFrame = new Frame();
+
+                //Set Default Primary Language
+                //Setting this, will be directly reflected in ApplicationLanguages.Languages 
+                Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = LanguageManager.GetCurrentLanguageTag();
+                
                 // Set the default language
-                rootFrame.Language = Windows.Globalization.ApplicationLanguages.Languages[0];
+                rootFrame.Language = LanguageManager.GetCurrentLanguageTag();
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
-                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
+                if (null != e && e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
                     //TODO: Load state from previously suspended application
                 }
@@ -123,12 +132,17 @@ namespace IoTCoreDefaultApp
             Window.Current.Activate();
 
             Screensaver.InitializeScreensaver();
+            await Task.Run(async () =>
+            {
+                await App.NetworkPresenter.UpdateAvailableNetworksAsync(false);
+            });
+
         }
 
         protected override void OnActivated(IActivatedEventArgs args)
         {
             // Spot if we are being activated due to inbound pairing request
-            if (args.Kind == ActivationKind.DevicePairing)
+            if (null != args && args.Kind == ActivationKind.DevicePairing)
             {
                 // Ensure the main app loads first
                 OnLaunched(null);
@@ -138,7 +152,7 @@ namespace IoTCoreDefaultApp
                 var di = devicePairingArgs.DeviceInformation;
 
                 // Automatically switch to Bluetooth Settings page
-                NavigationUtils.NavigateToScreen(typeof(Settings));
+                NavigationUtils.NavigateToScreen(typeof(Settings), "BluetoothListViewItem");
 
                 int bluetoothSettingsIndex = 2;
                 Frame rootFrame = Window.Current.Content as Frame;

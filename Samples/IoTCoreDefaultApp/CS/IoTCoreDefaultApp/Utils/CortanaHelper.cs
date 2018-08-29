@@ -1,8 +1,13 @@
 ﻿// Copyright (c) Microsoft. All rights reserved.
 
+using IoTCoreDefaultApp.Utils;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.Foundation;
+using Windows.Globalization;
+using Windows.Media.SpeechRecognition;
 using Windows.Services.Cortana;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
@@ -11,20 +16,50 @@ namespace IoTCoreDefaultApp
 {
     class CortanaHelper
     {
-        public static Task<bool> LaunchCortanaToConsentPageAsyncIfNeeded()
+        /// <summary>
+        /// returns whether Cortana supports particular Language
+        /// </summary>
+        /// <param name="languageTag"></param>
+        /// <returns></returns>
+        public static bool IsCortanaSupportedLanguage(string languageTag)
+        {
+            List<string> SpeechLanguages = SpeechRecognizer.SupportedGrammarLanguages.Select( a=> a.LanguageTag).ToList();
+
+            //Language lang = new Language(languageTag);
+            if (null != SpeechLanguages && SpeechLanguages.Contains(languageTag))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static bool IsCortanaSupported()
         {
             var isCortanaSupported = false;
             try
             {
                 isCortanaSupported = CortanaSettings.IsSupported();
             }
-            catch (UnauthorizedAccessException)
+            catch (UnauthorizedAccessException ex)
             {
                 // This is indicitive of EmbeddedMode not being enabled (i.e.
                 // running IotCoreDefaultApp on Desktop or Mobile without 
                 // enabling EmbeddedMode) 
                 //  https://developer.microsoft.com/en-us/windows/iot/docs/embeddedmode
+                Log.Write(ex.ToString());
+                Log.Write("UnauthorizedAccessException: Check to see if Embedded Mode is enabled");
             }
+
+            return isCortanaSupported;
+        }
+
+
+        public static Task<bool> LaunchCortanaToConsentPageAsyncIfNeeded()
+        {
+            var isCortanaSupported = IsCortanaSupported();
 
             // Do nothing for devices that do not support Cortana
             if (isCortanaSupported)

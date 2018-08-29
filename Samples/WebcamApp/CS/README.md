@@ -14,7 +14,7 @@ This is a Universal Windows application
   
 You'll need:  
   
-* <a name="USB_WebCam"></a>A USB web cam (Example: [Microsoft Life Cam](http://www.microsoft.com/hardware/en-us/p/lifecam-hd-3000){:target="_blank"})
+* <a name="USB_WebCam"></a>A USB web cam (Example: [Microsoft Life Cam](http://www.microsoft.com/hardware/en-us/p/lifecam-hd-3000))
   
 Connect the web cam to one of USB ports on the IoT Device  
   
@@ -30,7 +30,7 @@ devcon remove AUDD\QCOM2451
 devcon remove ADCM\QCOM242E 
 ```  
   
-Select **Remote Machine** to point to IoT device and hit F5 to deploy to your device. Go back to the basic 'Hello World' [sample](/Samples/HelloWorld){:target="_blank"}. if you need guidance   
+Select **Remote Machine** to point to IoT device and hit F5 to deploy to your device. Go back to the basic 'Hello World' [sample](/Samples/HelloWorld). if you need guidance   
   
 ### Test your app   
   
@@ -44,7 +44,7 @@ The sample app when deployed displays 2 buttons `Initialize Audio and Video` and
   
 ### Initialize Audio Only:  
   
-* `Start Audio Record` when clicked will begin recording. When done press `Stop Audio Record` to save the video. Audio is automtically played back.  
+* `Start Audio Record` when clicked will begin recording. When done press `Stop Audio Record` to save the audio. Audio is automtically played back.  
   
 **NOTE:** In order to hear the audio, an audio device (ex: earphones) must be connected to the analog audio output on Raspberry Pi2. On MinnowBoard Max, audio output is available via HDMI  
   
@@ -52,13 +52,13 @@ Congratulations! You created your first web cam app.
  
 ### Let's look at the code  
  
-The code for this sample uses the [Windows.Media.Capture](https://msdn.microsoft.com/en-us/library/windows/apps/windows.media.capture.aspx){:target="_blank"} namespace.   
+The code for this sample uses the [Windows.Media.Capture](https://msdn.microsoft.com/en-us/library/windows/apps/windows.media.capture.aspx) namespace.   
  
 **MediaCapture** class will be used to enumerate, connect to, and perform actions using the web camera connected to the device.   
  
 For accessing the web cam, the microphone, and the default storage folders, you must add the following capabilities to the **Package.appxmanifest** file in your project:  
 
-<img src="../../../Resources/images/PMWebCamOptions.png">
+![WebcamOptionsAppXManifest](../../../Resources/images/PMWebCamOptions.PNG)
 
 **NOTE:** You can also add capabilities directly by opening the **Package.appxmanifest** file in an XML editor (Right Click on the file -> Open with -> XML (Text) Editor) and adding the capabilities below:
  

@@ -1,9 +1,15 @@
+---
+title: Hello, blinky! background service sample
+ms.author: brian.fjeldstad
+description: A sample that shows how to make an LED attached to a GPIO pin blink on and off from a background service.
+---
+
 # "Hello, blinky!" background service
 
 These are the available versions of this Windows 10 IoT Core sample:
 
 *	[C#](./CS/README.md)
-*	[C++](./Cpp/README.md)
+*	[C++](./CPP/README.md)
 *	[VB](./VB/README.md)
 
 ## Additional resources

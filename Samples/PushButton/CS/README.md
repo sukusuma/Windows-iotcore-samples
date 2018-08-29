@@ -2,7 +2,9 @@
 
 You can find the source code for this sample by downloading a zip of all of our samples [here](https://github.com/Microsoft/Windows-iotcore-samples/archive/master.zip).
 
-In this sample, we connect a push button to your Raspberry Pi 2 or 3, MinnowBoard Max, or the DragonBoard 410c and use it to control an LED. We use GPIO interrupts to detect when the button is pressed and toggle the LED in response.
+In this sample, we connect a push button to your Raspberry Pi 2 or 3, Up Squared*, or the DragonBoard 410c and use it to control an LED. We use GPIO interrupts to detect when the button is pressed and toggle the LED in response.
+
+*The Up Squared should be used in place of the Minnowboard Max. We are in the process of updating our documentation to reflect this change.  
 
 ![Push Button Image](../../../Resources/images/PushButton/PushButtonSample.png)
 
@@ -16,13 +18,13 @@ Also, be aware that the GPIO APIs are only available on Windows IoT Core, so thi
 
 You will need the following components :
 
-* a [EG1311-ND Tactile Button](http://www.digikey.com/product-detail/en/320.02E11.08BLK/EG1311-ND/101397){:target="_blank"}
+* [EG1311-ND Tactile Button](http://www.digikey.com/product-detail/en/320.02E11.08BLK/EG1311-ND/101397)
 
-* a [red LED](http://www.digikey.com/product-detail/en/C5SMF-RJS-CT0W0BB1/C5SMF-RJS-CT0W0BB1-ND/2341832){:target="_blank"}
+* [Red LED](http://www.digikey.com/product-detail/en/C5SMF-RJS-CT0W0BB1/C5SMF-RJS-CT0W0BB1-ND/2341832)
 
-* a [330 &#x2126; resistor](http://www.digikey.com/product-detail/en/CFR-25JB-52-330R/330QBK-ND/1636){:target="_blank"}
+* [330 &#x2126; resistor](http://www.digikey.com/product-detail/en/CFR-25JB-52-330R/330QBK-ND/1636)
 
-* a breadboard and several male-to-female for the Raspberry Pi 2 or 3 or MinnowBoard Max or male-to-male wires for the DragonBoard
+* Breadboard and several male-to-female for the Raspberry Pi 2 or 3 or MinnowBoard Max or male-to-male wires for the DragonBoard
 
 ### Connect the circuit to your device
 
@@ -88,7 +90,7 @@ Here is the pinout of the MBM:
 
 For reference, the functionality of the low-speed expansion connector is outlined in the following diagram
 
-![DragonBoard Low-Speed Expansion Connector](../../../Resources/images/PinMappings/DB_pinout.png)
+![DragonBoard Low-Speed Expansion Connector](../../../Resources/images/PinMappings/DB_Pinout.png)
 
 Perform the following steps to connect the LED:
 
@@ -109,13 +111,12 @@ A schematic for the circuit is shown in the diagram below:
 
 ![DragonBoard Push Button Schematic](../../../Resources/images/PushButton/DB_PushButton_schem.png)
 
-Finally, the LED_PIN and BUTTON_PIN variables of the **MainPage.xml.cs** file of the sample code will need the following modification:
+Finally, the LED_PIN and BUTTON_PIN variables of the **MainPage.xaml.cs** file of the sample code will need the following modification:
 
-~~~
+``` C#
 private const int LED_PIN = 13;
 private const int BUTTON_PIN = 36;
-~~~
-{: .language-c#}
+```
 
 ### Building and running the sample
 
