@@ -45,6 +45,7 @@ namespace IoTCoreDefaultApp
 
         public MainPage()
         {
+            Log.Enter();
             this.InitializeComponent();
 
             // This is a static public property that allows downstream pages to get a handle to the MainPage instance
@@ -63,6 +64,7 @@ namespace IoTCoreDefaultApp
 
             this.Loaded += async (sender, e) =>
             {
+                Log.Enter("MainPage Loaded");
                 await MainPageDispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                 {
                     UpdateBoardInfo();
@@ -70,8 +72,65 @@ namespace IoTCoreDefaultApp
                     UpdateConnectedDevices();
                     UpdatePackageVersion();
                 });
+                Log.Leave();
+            };
+            Log.Leave();
+        }
+
+        private async void UpdateMakerImageSecurityNotice()
+        {
+            if (await IsMakerImager())
+            {
+                await MainPageDispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                {
+                    SecurityNoticeRow.Visibility = Visibility.Visible;
+                });
+            }
+        }
+
+        private async Task<bool> IsMakerImager()
+        {
+            var cmdOutput = string.Empty;
+
+            var standardOutput = new InMemoryRandomAccessStream();
+            var options = new ProcessLauncherOptions
+            {
+                StandardOutput = standardOutput
             };
 
+            try
+            {
+                var result = await ProcessLauncher.RunToCompletionAsync(CommandLineProcesserExe, RegKeyQueryCmdArg, options);
+
+                if (result.ExitCode == 0)
+                {
+                    using (var outStreamRedirect = standardOutput.GetInputStreamAt(0))
+                    {
+                        using (var dataReader = new DataReader(outStreamRedirect))
+                        {
+                            uint bytesLoaded = 0;
+                            while ((bytesLoaded = await dataReader.LoadAsync(CmdLineBufSize)) > 0)
+                            {
+                                cmdOutput += dataReader.ReadString(bytesLoaded);
+                            }
+                        }
+                    }
+                }
+
+                Match match = Regex.Match(cmdOutput, ExpectedResultPattern, RegexOptions.IgnoreCase);
+                if (match.Success)
+                {
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Could not read the value
+                Log.Write("Could not read maker image value in registry");
+                Log.Write(ex.ToString());
+            }
+
+            return false;
         }
 
         private async void UpdateMakerImageSecurityNotice()

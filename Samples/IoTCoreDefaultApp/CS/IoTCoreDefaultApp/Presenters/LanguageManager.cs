@@ -72,8 +72,8 @@ namespace IoTCoreDefaultApp
         {
             get;
             set;
-        }                
-       
+        }
+
         private LanguageManager()
         {
             List<string> imageLanguagesList = GetImageSupportedLanguages();
@@ -88,13 +88,12 @@ namespace IoTCoreDefaultApp
         
             ImageLanguageDisplayNames = displayNameToImageLanguageMap.Keys.ToList();
 
-
-            displayNameToLanguageMap = new Dictionary<string, string> (
+            displayNameToLanguageMap = new Dictionary<string, string>(
                 ApplicationLanguages.ManifestLanguages.Union(imageLanguagesList).Select(tag =>
                 {
                     var lang = new Language(tag);
                     return new KeyValuePair<string, string>(lang.NativeName, GetLocaleFromLanguageTag(lang.LanguageTag));
-                }).OrderBy(a => a.Key).ToDictionary(keyitem => keyitem.Key, valueItem => valueItem.Value)
+                }).Distinct().OrderBy(a => a.Key).ToDictionary(keyitem => keyitem.Key, valueItem => valueItem.Value)
                 );
 
             LanguageDisplayNames = displayNameToLanguageMap.Keys.ToList();
@@ -116,7 +115,19 @@ namespace IoTCoreDefaultApp
                 //Add Image Enabled Languages as Global Preferences List
                 if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 5))
                 {
-                    GlobalizationPreferences.TrySetLanguages(displayNameToImageLanguageMap.Values);
+                    //Find language currently set as UI language ... this should be
+                    //the first language in the list passed to TrySetLanguages
+                    var uiLanguageTag = GlobalizationPreferences.Languages[0];
+                    var index = imageLanguagesList.IndexOf(uiLanguageTag);
+                    if (index != 0)
+                    {
+                        if (index != -1)
+                        {
+                            imageLanguagesList.Remove(uiLanguageTag);
+                        }
+                        imageLanguagesList.Insert(0, uiLanguageTag);
+                    }
+                    GlobalizationPreferences.TrySetLanguages(imageLanguagesList);
                 }
             }
             catch(UnauthorizedAccessException ex)
@@ -314,12 +325,14 @@ namespace IoTCoreDefaultApp
                         });
 
                     }
-                    catch (InvalidCastException)
+                    catch (UnauthorizedAccessException ex)
                     {
-                        // This is indicitive of EmbeddedMode not being enabled (i.e.
+                        // This is indicative of EmbeddedMode not being enabled (i.e.
                         // running IotCoreDefaultApp on Desktop or Mobile without 
                         // enabling EmbeddedMode) 
                         //  https://developer.microsoft.com/en-us/windows/iot/docs/embeddedmode
+                        Log.Write(ex.ToString());
+                        Log.Write("UnauthorizedAccessException: Check to see if Embedded Mode is enabled");
                     }
                 }
 
