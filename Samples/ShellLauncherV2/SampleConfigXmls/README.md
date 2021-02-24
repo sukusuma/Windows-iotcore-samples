@@ -1,10 +1,10 @@
---- 
-topic: sample
+---
+page_type: sample
 urlFragment: SampleConfigXmls
 languages:
--xml
+- xml
 products:
--windows
+- windows
 description: sample shell launcher configuration xmls using Assigned Access CSP
 ---
 

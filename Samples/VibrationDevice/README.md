@@ -1,10 +1,10 @@
 ---
-topic: sample
+page_type: sample
 urlFragment: vibration-device
 languages:
--csharp
+  - csharp
 products:
--windows
+  - windows
 description: A sample that shows how to use the vibration device on supported hardware.
 ---
 
